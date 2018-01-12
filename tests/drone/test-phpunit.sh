@@ -68,17 +68,7 @@ set_up_external_storage() {
     case "${FILES_EXTERNAL_TYPE}" in
     Owncloud)
         wait-for-it owncloud_external:80
-        cat > config/config.webdav.php <<DELIM
- <?php
- return array(
-     'run'=>true,
-     'host'=>'owncloud_external:80/owncloud/remote.php/webdav/',
-     'user'=>'admin',
-     'password'=>'admin',
-     'root'=>'',
-     'wait'=> 0
- );
-DELIM
+        ./occ files_external:create Owncloud owncloud password::password -c host="owncloud_external" -c root="" -c user="admin" -c password="admin"
         ;;
     *)
         echo "Unsupported files external type!"
